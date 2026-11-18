@@ -1,0 +1,95 @@
+
+#include <iostream>
+using namespace std;
+
+struct Node
+{
+    int data;
+    Node* next;
+};
+
+Node* getIntersectionNode(Node* headA, Node* headB)
+{
+    Node* pointerA = headA;
+    Node* pointerB = headB;
+
+    while (pointerA != pointerB)
+    {
+        if (pointerA == NULL)
+            pointerA = headB;
+        else
+            pointerA = pointerA->next;
+
+        if (pointerB == NULL)
+            pointerB = headA;
+        else
+            pointerB = pointerB->next;
+    }
+
+    return pointerA;
+}
+
+Node* createNode(int value)
+{
+    return new Node{value, NULL};
+}
+
+void displayResult(Node* intersection)
+{
+    if (intersection == NULL)
+        cout << "No intersection" << endl;
+    else
+        cout << "Intersected at '" << intersection->data << "'" << endl;
+}
+
+int main()
+{
+    // Example 1
+    Node* shared1 = createNode(8);
+    shared1->next = createNode(4);
+    shared1->next->next = createNode(5);
+
+    Node* headA1 = createNode(4);
+    headA1->next = createNode(1);
+    headA1->next->next = shared1;
+
+    Node* headB1 = createNode(5);
+    headB1->next = createNode(6);
+    headB1->next->next = createNode(1);
+    headB1->next->next->next = shared1;
+
+    cout << "Example 1: ";
+    displayResult(getIntersectionNode(headA1, headB1));
+
+    cout << "-------------------" << endl;
+
+    // Example 2
+    Node* shared2 = createNode(2);
+    shared2->next = createNode(4);
+
+    Node* headA2 = createNode(1);
+    headA2->next = createNode(9);
+    headA2->next->next = createNode(1);
+    headA2->next->next->next = shared2;
+
+    Node* headB2 = createNode(3);
+    headB2->next = shared2;
+
+    cout << "Example 2: ";
+    displayResult(getIntersectionNode(headA2, headB2));
+
+    cout << "-------------------" << endl;
+
+    // Example 3
+    Node* headA3 = createNode(2);
+    headA3->next = createNode(6);
+    headA3->next->next = createNode(4);
+
+    Node* headB3 = createNode(1);
+    headB3->next = createNode(5);
+
+    cout << "Example 3: ";
+    displayResult(getIntersectionNode(headA3, headB3));
+
+    return 0;
+}
