@@ -1,0 +1,64 @@
+
+#include <iostream>
+#include <queue>
+using namespace std;
+
+class MyStack
+{
+private:
+    queue<int> firstQueue;
+    queue<int> secondQueue;
+
+public:
+
+    void push(int x)
+    {
+        secondQueue.push(x);
+
+        while (!firstQueue.empty())
+        {
+            secondQueue.push(firstQueue.front());
+            firstQueue.pop();
+        }
+
+        swap(firstQueue, secondQueue);
+    }
+
+    int pop()
+    {
+        int removedValue = firstQueue.front();
+        firstQueue.pop();
+
+        return removedValue;
+    }
+
+    int top()
+    {
+        return firstQueue.front();
+    }
+
+    bool empty()
+    {
+        return firstQueue.empty();
+    }
+};
+
+int main()
+{
+    MyStack myStack;
+
+    cout << "Push: 1" << endl;
+    myStack.push(1);
+
+    cout << "Push: 2" << endl;
+    myStack.push(2);
+
+    cout << "Top: " << myStack.top() << endl;
+
+    cout << "Pop: " << myStack.pop() << endl;
+
+    cout << "Empty: "
+         << (myStack.empty() ? "true" : "false") << endl;
+
+    return 0;
+}
