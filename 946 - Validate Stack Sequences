@@ -1,0 +1,49 @@
+
+#include <iostream>
+#include <stack>
+using namespace std;
+
+bool validateStackSequences(int pushed[], int popped[], int size)
+{
+    stack<int> myStack;
+    int popIndex = 0;
+
+    for (int i = 0; i < size; i++)
+    {
+        myStack.push(pushed[i]);
+
+        while (!myStack.empty() &&
+               myStack.top() == popped[popIndex])
+        {
+            myStack.pop();
+            popIndex++;
+        }
+    }
+
+    return myStack.empty();
+}
+
+int main()
+{
+    int pushed1[] = {1, 2, 3, 4, 5};
+    int popped1[] = {4, 5, 3, 2, 1};
+
+    int pushed2[] = {1, 2, 3, 4, 5};
+    int popped2[] = {4, 3, 5, 1, 2};
+
+    cout << "Example 1" << endl;
+
+    cout << "Output: "
+         << (validateStackSequences(pushed1, popped1, 5)
+             ? "true" : "false") << endl;
+
+    cout << "-------------------" << endl;
+
+    cout << "Example 2" << endl;
+
+    cout << "Output: "
+         << (validateStackSequences(pushed2, popped2, 5)
+             ? "true" : "false") << endl;
+
+    return 0;
+}
