@@ -1,0 +1,84 @@
+
+#include <iostream>
+using namespace std;
+
+struct Node
+{
+    int data;
+    Node* next;
+};
+
+Node* middleNode(Node* head)
+{
+    Node* slowRunner = head;
+    Node* fastRunner = head;
+
+    while (fastRunner != NULL && fastRunner->next != NULL)
+    {
+        slowRunner = slowRunner->next;
+        fastRunner = fastRunner->next->next;
+    }
+
+    return slowRunner;
+}
+
+void displayList(Node* head)
+{
+    while (head != NULL)
+    {
+        cout << head->data;
+
+        head = head->next;
+
+        if (head != NULL)
+            cout << " -> ";
+    }
+
+    cout << " -> NULL" << endl;
+}
+
+void testCase(int values[], int size)
+{
+    Node* head = NULL;
+    Node* tail = NULL;
+
+    for (int i = 0; i < size; i++)
+    {
+        Node* newNode = new Node{values[i], NULL};
+
+        if (head == NULL)
+            head = newNode;
+        else
+            tail->next = newNode;
+
+        tail = newNode;
+    }
+
+    cout << "Input: ";
+    displayList(head);
+
+    Node* middle = middleNode(head);
+
+    cout << "Output: ";
+    displayList(middle);
+
+    cout << "-------------------" << endl;
+
+    while (head != NULL)
+    {
+        Node* temp = head;
+        head = head->next;
+        delete temp;
+    }
+}
+
+int main()
+{
+    int arr1[] = {1, 2, 3, 4, 5};
+    int arr2[] = {1, 2, 3, 4, 5, 6};
+
+    testCase(arr1, 5);
+    testCase(arr2, 6);
+
+    return 0;
+}
