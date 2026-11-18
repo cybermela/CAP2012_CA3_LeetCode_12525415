@@ -25,22 +25,15 @@ bool hasCycle(Node* head)
     return false;
 }
 
-int main()
+void testCase(int values[], int n, int pos)
 {
     Node* head = NULL;
     Node* tail = NULL;
-
-    int n, value;
-
-    cout << "Enter number of nodes: ";
-    cin >> n;
+    Node* cycleNode = NULL;
 
     for (int i = 0; i < n; i++)
     {
-        cout << "Enter value: ";
-        cin >> value;
-
-        Node* newNode = new Node{value, NULL};
+        Node* newNode = new Node{values[i], NULL};
 
         if (head == NULL)
             head = newNode;
@@ -48,26 +41,39 @@ int main()
             tail->next = newNode;
 
         tail = newNode;
+
+        if (i == pos)
+            cycleNode = newNode;
     }
 
-    int pos;
-    cout << "Enter position to connect tail (-1 for no cycle): ";
-    cin >> pos;
+    if (pos != -1)
+        tail->next = cycleNode;
 
-    if (pos >= 0 && pos < n)
+    cout << "Input: [";
+
+    for (int i = 0; i < n; i++)
     {
-        Node* temp = head;
-
-        for (int i = 0; i < pos; i++)
-            temp = temp->next;
-
-        tail->next = temp;
+        cout << values[i];
+        if (i < n - 1) cout << ",";
     }
 
-    if (hasCycle(head))
-        cout << "Cycle detected";
-    else
-        cout << "No cycle detected";
+    cout << "], pos = " << pos << endl;
+
+    cout << "Output: "
+         << (hasCycle(head) ? "true" : "false") << endl;
+
+    cout << "-------------------" << endl;
+}
+
+int main()
+{
+    int arr1[] = {3, 2, 0, -4};
+    int arr2[] = {1, 2};
+    int arr3[] = {1};
+
+    testCase(arr1, 4, 1);
+    testCase(arr2, 2, 0);
+    testCase(arr3, 1, -1);
 
     return 0;
 }
