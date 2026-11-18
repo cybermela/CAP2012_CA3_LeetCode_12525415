@@ -2,29 +2,33 @@
 #include <iostream>
 using namespace std;
 
-int main()
+int countSteps(int number)
 {
-    int num;
-    int steps = 0;
+    int stepCounter = 0;
 
-    cout << "Enter a number: ";
-    cin >> num;
-
-    while (num != 0)
+    while (number != 0)
     {
-        if (num % 2 == 0)
-        {
-            num = num / 2;
-        }
+        if (number % 2 == 0)
+            number = number / 2;
         else
-        {
-            num = num - 1;
-        }
+            number = number - 1;
 
-        steps++;
+        stepCounter++;
     }
 
-    cout << "Number of steps: " << steps;
+    return stepCounter;
+}
+
+int main()
+{
+    int testNumbers[] = {14, 8, 123};
+
+    for (int i = 0; i < 3; i++)
+    {
+        cout << "Input: " << testNumbers[i] << endl;
+        cout << "Output: " << countSteps(testNumbers[i]) << endl;
+        cout << "-------------------" << endl;
+    }
 
     return 0;
 }
