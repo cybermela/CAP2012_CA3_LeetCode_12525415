@@ -12,14 +12,31 @@ struct ListNode {
 
 class Solution {
 public:
-    ListNode* getIntersectionNode(ListNode* headA, ListNode* headB) {
-        ListNode* a = headA;
-        ListNode* b = headB;
-        while (a != b) {
-            a = (a == NULL) ? headB : a->next;
-            b = (b == NULL) ? headA : b->next;
+    int length(ListNode* head) {
+        int n = 0;
+        while (head != NULL) {
+            n++;
+            head = head->next;
         }
-        return a;
+        return n;
+    }
+
+    ListNode* getIntersectionNode(ListNode* headA, ListNode* headB) {
+        int lenA = length(headA);
+        int lenB = length(headB);
+        while (lenA > lenB) {
+            headA = headA->next;
+            lenA--;
+        }
+        while (lenB > lenA) {
+            headB = headB->next;
+            lenB--;
+        }
+        while (headA != headB) {
+            headA = headA->next;
+            headB = headB->next;
+        }
+        return headA;
     }
 };
 
