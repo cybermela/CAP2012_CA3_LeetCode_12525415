@@ -5,18 +5,27 @@
 using namespace std;
 
 class MyCircularDeque {
-    vector<int> data;
+    int* arr;
     int front;
     int count;
     int capacity;
 
 public:
-    MyCircularDeque(int k) : data(k), front(0), count(0), capacity(k) {}
+    MyCircularDeque(int k) {
+        arr = new int[k];
+        capacity = k;
+        front = 0;
+        count = 0;
+    }
+
+    ~MyCircularDeque() {
+        delete[] arr;
+    }
 
     bool insertFront(int value) {
         if (isFull()) return false;
         front = (front - 1 + capacity) % capacity;
-        data[front] = value;
+        arr[front] = value;
         count++;
         return true;
     }
@@ -24,7 +33,7 @@ public:
     bool insertLast(int value) {
         if (isFull()) return false;
         int rear = (front + count) % capacity;
-        data[rear] = value;
+        arr[rear] = value;
         count++;
         return true;
     }
@@ -44,12 +53,12 @@ public:
 
     int getFront() {
         if (isEmpty()) return -1;
-        return data[front];
+        return arr[front];
     }
 
     int getRear() {
         if (isEmpty()) return -1;
-        return data[(front + count - 1) % capacity];
+        return arr[(front + count - 1) % capacity];
     }
 
     bool isEmpty() {
