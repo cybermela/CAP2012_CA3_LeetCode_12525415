@@ -2,40 +2,28 @@
 
 #include <iostream>
 #include <vector>
-#include <climits>
-#include <algorithm>
 using namespace std;
 
 class Solution {
 public:
     double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
-        if (nums1.size() > nums2.size())
-            return findMedianSortedArrays(nums2, nums1);
-
-        int m = nums1.size(), n = nums2.size();
-        int half = (m + n + 1) / 2;
-        int low = 0, high = m;
-
-        while (low <= high) {
-            int i = low + (high - low) / 2;
-            int j = half - i;
-
-            int maxLeft1  = (i == 0) ? INT_MIN : nums1[i - 1];
-            int minRight1 = (i == m) ? INT_MAX : nums1[i];
-            int maxLeft2  = (j == 0) ? INT_MIN : nums2[j - 1];
-            int minRight2 = (j == n) ? INT_MAX : nums2[j];
-
-            if (maxLeft1 <= minRight2 && maxLeft2 <= minRight1) {
-                if ((m + n) % 2 == 1)
-                    return max(maxLeft1, maxLeft2);
-                return (max(maxLeft1, maxLeft2) + (double)min(minRight1, minRight2)) / 2.0;
-            } else if (maxLeft1 > minRight2) {
-                high = i - 1;
+        int m = nums1.size();
+        int n = nums2.size();
+        int total = m + n;
+        int i = 0, j = 0;
+        int prev = 0, curr = 0;
+        for (int count = 0; count <= total / 2; count++) {
+            prev = curr;
+            if (i < m && (j >= n || nums1[i] <= nums2[j])) {
+                curr = nums1[i];
+                i++;
             } else {
-                low = i + 1;
+                curr = nums2[j];
+                j++;
             }
         }
-        return 0.0;
+        if (total % 2 == 1) return curr;
+        return (prev + curr) / 2.0;
     }
 };
 
