@@ -2,22 +2,26 @@
 
 #include <iostream>
 #include <vector>
-#include <stack>
 using namespace std;
 
 class Solution {
 public:
     bool validateStackSequences(vector<int>& pushed, vector<int>& popped) {
-        stack<int> st;
+        int n = pushed.size();
+        int* st = new int[n];
+        int top = -1;
         int j = 0;
-        for (int x : pushed) {
-            st.push(x);
-            while (!st.empty() && j < (int)popped.size() && st.top() == popped[j]) {
-                st.pop();
+        for (int i = 0; i < n; i++) {
+            top++;
+            st[top] = pushed[i];
+            while (top >= 0 && st[top] == popped[j]) {
+                top--;
                 j++;
             }
         }
-        return st.empty();
+        bool ok = (top == -1);
+        delete[] st;
+        return ok;
     }
 };
 
