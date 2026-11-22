@@ -13,13 +13,17 @@ struct ListNode {
 class Solution {
 public:
     ListNode* middleNode(ListNode* head) {
-        ListNode* slow = head;
-        ListNode* fast = head;
-        while (fast != NULL && fast->next != NULL) {
-            slow = slow->next;
-            fast = fast->next->next;
+        int count = 0;
+        ListNode* temp = head;
+        while (temp != NULL) {
+            count++;
+            temp = temp->next;
         }
-        return slow;
+        temp = head;
+        for (int i = 0; i < count / 2; i++) {
+            temp = temp->next;
+        }
+        return temp;
     }
 };
 
